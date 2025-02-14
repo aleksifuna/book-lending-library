@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-
+    before_action :require_authentication
     before_action :set_book, only: %i[show borrow return]
     def index
         @books = Book.all
