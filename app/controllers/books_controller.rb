@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
     before_action :require_authentication
-    before_action :set_book, only: %i[show borrow return]
+    before_action :require_admin, only: [ :new, :create, :edit, :update, :destroy ]
+    before_action :set_book, only: [ :show, :borrow, :return ]
     def index
         @books = Book.all
     end
@@ -17,6 +18,7 @@ class BooksController < ApplicationController
         if @book.save
             redirect_to @book, notice: 'Book created successfully.'
         else
+            flash.now[:alert] = @book.errors.full_messages.join(', ')
             render :new
         end
     end
@@ -53,7 +55,7 @@ class BooksController < ApplicationController
         borrowing = Current.user.borrowings.find_by(book: @book, returned_date: nil)
         if borrowing
             borrowing.update(returned_date: Date.today)
-            redirect_to @book, notice: 'Book returned successfully.'
+            redirect_back fallback_location: @book, notice: 'Book returned successfully.'
         else
             redirect_to @book, alert: 'Book not found in your borrowings.'
         end

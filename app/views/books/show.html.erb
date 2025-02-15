@@ -9,5 +9,9 @@
   <% elsif @book.available? %>
     <%= button_to 'Borrow Book', borrow_book_path(@book), method: :post, class: "btn btn-primary" %>
   <% end %>
+  <% if Current.user&.admin %>
+    <%= link_to 'Edit Book', edit_book_path(@book), class: "btn btn-warning mt-3" %>
+    <br/>
+    <% end %>
   <%= link_to 'Back to List', books_path, class: "btn btn-secondary mt-3" %>
 </div>

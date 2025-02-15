@@ -8,8 +8,13 @@
     <% if Current.user %>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-          <%= link_to 'Account', user_path(Current.user), class: 'nav-link active', aria: { current: 'page' } %>
+          <%= link_to 'Account', user_path(Current.user), class: 'nav-link', aria: { current: 'page' } %>
           </li>
+          <% if Current.user&.admin? %>
+          <li class="nav-item">
+          <%= link_to 'Add Book', new_book_path, class: 'nav-link' %>
+          </li>
+          <% end %>
         </ul>
         <%= button_to 'Logout', session_path, class: "btn btn-outline-danger ms-3", method: :delete %>
       </div>
