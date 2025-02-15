@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
 
   # Books routes
-  resources :books, only: [:index, :show] do
+  resources :books do
     member do
       post :borrow
       post :return

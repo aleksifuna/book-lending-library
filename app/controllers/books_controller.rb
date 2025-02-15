@@ -5,6 +5,13 @@ class BooksController < ApplicationController
         @books = Book.all
     end
 
+    def show
+    end
+
+    def new
+        @book = Book.new
+    end
+
     def create
         @book = Book.new(params.require(:book).permit(:title, :author, :isbn))
         if @book.save
@@ -13,6 +20,25 @@ class BooksController < ApplicationController
             render :new
         end
     end
+    
+    def edit
+        @book = Book.find(params[:id])
+      end
+      
+      def update
+        @book = Book.find(params[:id])
+        if @book.update(params.require(:book).permit(:title, :author, :isbn))
+          redirect_to @book, notice: 'Book updated successfully.'
+        else
+          render :edit
+        end
+      end
+      
+      def destroy
+        @book = Book.find(params[:id])
+        @book.destroy
+        redirect_to books_path, notice: 'Book deleted successfully.'
+      end
 
     def borrow
         borrowing = Current.user.borrowings.create(book: @book, due_date: 2.weeks.from_now)
@@ -37,5 +63,11 @@ class BooksController < ApplicationController
 
     def set_book
         @book = Book.find(params[:id])
+    end
+
+    def require_admin
+        unless Current.user&.admin?
+            redirect_to books_path, alert: 'You are not authorized to perform this action.'
+        end
     end
 end
