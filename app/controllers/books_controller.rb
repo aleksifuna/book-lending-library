@@ -20,11 +20,11 @@ class BooksController < ApplicationController
             render :new
         end
     end
-    
+
     def edit
         @book = Book.find(params[:id])
       end
-      
+
       def update
         @book = Book.find(params[:id])
         if @book.update(params.require(:book).permit(:title, :author, :isbn))
@@ -33,7 +33,7 @@ class BooksController < ApplicationController
           render :edit
         end
       end
-      
+
       def destroy
         @book = Book.find(params[:id])
         @book.destroy

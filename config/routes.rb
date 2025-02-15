@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   # Authentication routes
-  resources :registrations, only: [:new, :create]
+  resources :registrations, only: [ :new, :create ]
   resources :passwords, param: :token
-  resource :session, only: [:new, :create, :destroy]
+  resource :session, only: [ :new, :create, :destroy ]
 
   # Books routes
   resources :books do
@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: [:show]
+  resources :users, only: [ :show ]
 
   # Root route
   root "books#index"
