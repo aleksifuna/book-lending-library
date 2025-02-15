@@ -1,13 +1,26 @@
-<h1>Available Books</h1>
-<ul>
-  <% @books.each do |book| %>
-    <li>
-      <%= link_to book.title, book_path(book) %> - <%= book.author %>
-      <% if book.available? %>
-        <strong>(Available)</strong>
-      <% else %>
-        <strong>(Borrowed)</strong>
-      <% end %>
-    </li>
-  <% end %>
-</ul>
+<h4>Our Books</h4>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+        <td><%= link_to book.title, book_path(book) %></td>
+        <td><%= book.author %></td>
+        <td>
+          <% if book.available? %>
+            <span class="text-success">Available</span>
+          <% else %>
+            <span class="text-danger">Borrowed</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

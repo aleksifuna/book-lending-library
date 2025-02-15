@@ -1,11 +1,13 @@
-<h1><%= @book.title %></h1>
-<p>Author: <%= @book.author %></p>
-<p>ISBN: <%= @book.isbn %></p>
+<div class="bg-light p-5 rounded">
+  <h1><%= @book.title %></h1>
+  <hr class="my-4">
+  <p>Author: <%= @book.author %></p>
 
-<% if @book.available? %>
-  <%= button_to 'Borrow Book', borrow_book_path(@book), method: :post %>
-<% else %>
-  <%= button_to 'Return Book', return_book_path(@book), method: :Post if Current.user.books.include?(@book) %>
-<% end %>
-
-<%= link_to 'Back to List', books_path %>
+  <% borrowing = Current.user.borrowings.find_by(book: @book, returned_date: nil) %>
+  <% if borrowing %>
+    <%= button_to 'Return Book', return_book_path(@book), method: :post, class: "btn btn-warning" %>
+  <% elsif @book.available? %>
+    <%= button_to 'Borrow Book', borrow_book_path(@book), method: :post, class: "btn btn-primary" %>
+  <% end %>
+  <%= link_to 'Back to List', books_path, class: "btn btn-secondary mt-3" %>
+</div>

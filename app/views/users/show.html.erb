@@ -1,0 +1,41 @@
+<table class="table table-bordered w-auto mb-4">
+  <tr>
+    <th>Name</th>
+    <td><%= "#{@user.first_name} #{@user.last_name}" %></td>
+  </tr>
+  <tr>
+    <th>Email</th>
+    <td><%= @user.email_address %></td>
+  </tr>
+</table>
+
+<h6>Borrowed Books</h6>
+<% if @borrowings.any? %>
+  <table class="table table-bordered table-striped w-auto">
+    <thead class="table-light">
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Borrowed At</th>
+        <th>Due Date</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @borrowings.each do |borrowing| %>
+        <tr>
+          <td><%= borrowing.book.title %></td>
+          <td><%= borrowing.book.author %></td>
+          <td><%= borrowing.created_at.strftime("%d %B %Y") %></td>
+          <td><%= borrowing.due_date.strftime("%d %B %Y") %></td>
+          <td>
+              <%= button_to 'Return Book', return_book_path(borrowing.book), method: :post, class: "btn btn-warning btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>You haven't borrowed any books.</p>
+<% end %>
+

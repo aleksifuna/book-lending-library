@@ -5,7 +5,13 @@ class BooksController < ApplicationController
         @books = Book.all
     end
 
-    def show
+    def create
+        @book = Book.new(params.require(:book).permit(:title, :author, :isbn))
+        if @book.save
+            redirect_to @book, notice: 'Book created successfully.'
+        else
+            render :new
+        end
     end
 
     def borrow
